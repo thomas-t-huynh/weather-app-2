@@ -910,7 +910,7 @@
 const weatherForm = document.querySelector('form');
 const search = document.querySelector('input');
 const loading = document.getElementById("loading");
-const searchForm = document.getElementById("search-form")
+const searchForm = document.getElementById("search-form");
 
 const toggleLoader = () => {
     if (loading.style.display === "block") {
@@ -947,57 +947,60 @@ const getCurrentWeek = () => {
 const currentWeek = getCurrentWeek();
 
 
-// weatherForm.addEventListener('submit', (e) => {
+weatherForm.addEventListener('submit', (e) => {
 
-//     e.preventDefault();
+    e.preventDefault();
 
-//     // toggleLoader();
+    // toggleLoader();
 
-//     const location = search.value;
+    const location = search.value;
 
-//     for (let i = 0; i < currentWeek.length; i++) {
+    for (let i = 0; i < currentWeek.length; i++) {
 
-//         let day = currentWeek[i].toJSON().slice(0, 19);
+        let day = currentWeek[i].toJSON().slice(0, 19);
 
-//         let dayName = currentWeek[i].toLocaleDateString('en-US', { weekday: 'long'});
+        let dayName = currentWeek[i].toLocaleDateString('en-US', { weekday: 'long'});
 
-//         let dayForecast = document.querySelector(`#${dayName}`);
+        let dayForecast = document.querySelector(`#${dayName}`);
 
-//         fetch(`http://localhost:3000/weather?address=${location}&day=${day}`).then((res) => {
-//             res.json().then((data) => {
-//                 if (data.err) {
-//                     return console.log(data.err);
-//                 } else {
-//                     dayForecast.getElementsByTagName("p")[0].textContent = dayName;
-//                     dayForecast.getElementsByTagName("p")[1].textContent = data.temperature;
-//                     dayForecast.getElementsByTagName("p")[2].textContent = data.location;
-//                     dayForecast.getElementsByTagName("canvas")[0].setAttribute("id", `${dayName}-icon`);
-//                     var skycon = new Skycons({ "monochrome": false });
-//                     skycon.add(document.getElementById(`${dayName}-icon`), data.icon);
-//                     skycon.play();
-//                 }
-//             })
+        fetch(`http://localhost:3000/weather?address=${location}&day=${day}`).then((res) => {
+            res.json().then((data) => {
+                if (data.err) {
+                    return console.log(data.err);
+                } else {
+                    dayForecast.getElementsByTagName("p")[0].textContent = dayName;
+                    dayForecast.getElementsByTagName("div")[0].getElementsByTagName("span")[0].textContent = `${69}°`;
+                    dayForecast.getElementsByTagName("div")[0].getElementsByTagName("p")[0].textContent = `Fahrenheit`;
+                    dayForecast.getElementsByTagName("p")[2].textContent = data.location;
+                    dayForecast.getElementsByTagName("canvas")[0].setAttribute("id", `${dayName}-icon`);
+                    var skycon = new Skycons({ "monochrome": false });
+                    skycon.add(document.getElementById(`${dayName}-icon`), data.icon);
+                    skycon.play();
+                    dayForecast.style.visibility = "visible";
+                }
+            })
             
-//         })
-//     }
-// })
+        })
+    }
+})
 
-for (let i = 0; i < currentWeek.length; i++) {
+// test app without running API
+// for (let i = 0; i < currentWeek.length; i++) {
 
-    let day = currentWeek[i].toJSON().slice(0, 19);
+//     let day = currentWeek[i].toJSON().slice(0, 19);
 
-    let dayName = currentWeek[i].toLocaleDateString('en-US', { weekday: 'long'});
+//     let dayName = currentWeek[i].toLocaleDateString('en-US', { weekday: 'long'});
 
-    let dayForecast = document.querySelector(`#${dayName}`);
+//     let dayForecast = document.querySelector(`#${dayName}`);
 
-    dayForecast.getElementsByTagName("p")[0].textContent = dayName;
-    dayForecast.getElementsByTagName("div")[0].getElementsByTagName("span")[0].textContent = `${69}°`;
-    dayForecast.getElementsByTagName("div")[0].getElementsByTagName("p")[0].textContent = `Fahrenheit`;
-    dayForecast.getElementsByTagName("p")[2].textContent = 'New York, New York';
-    dayForecast.getElementsByTagName("canvas")[0].setAttribute("id", `${dayName}-icon`);
-    var skycon = new Skycons({ "monochrome": false });
-    skycon.add(document.getElementById(`${dayName}-icon`), 'rain');
-    skycon.play();     
+//     dayForecast.getElementsByTagName("p")[0].textContent = dayName;
+//     dayForecast.getElementsByTagName("div")[0].getElementsByTagName("span")[0].textContent = `${69}°`;
+//     dayForecast.getElementsByTagName("div")[0].getElementsByTagName("p")[0].textContent = `Fahrenheit`;
+//     dayForecast.getElementsByTagName("p")[2].textContent = 'New York, New York';
+//     dayForecast.getElementsByTagName("canvas")[0].setAttribute("id", `${dayName}-icon`);
+//     var skycon = new Skycons({ "monochrome": false });
+//     skycon.add(document.getElementById(`${dayName}-icon`), 'rain');
+//     skycon.play();     
     
-}
+// }
 
