@@ -72,7 +72,12 @@ app.get('/weather', (req, res) => {
                 return console.log(err);
             }
             res.send({
-                forecast: forecastData,
+                day: forecastData.day,
+                temperature: forecastData.temperature,
+                location: data.location,
+                summary: forecastData.summary,
+                icon: forecastData.icon,
+                
             })
         });
     });
@@ -87,12 +92,6 @@ app.get('/help/*', (req, res) => {
         title: '404 Error',
         error: 'Help article not found.',
         name: 'Thomas Huynh'
-    })
-});
-
-app.get('/skycons', (req, res) => {
-    res.render('skycons', {
-        undefined
     })
 });
 

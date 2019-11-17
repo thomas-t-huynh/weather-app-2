@@ -909,8 +909,18 @@
 
 const weatherForm = document.querySelector('form');
 const search = document.querySelector('input');
-const sunday = document.querySelector('#sunday');
+const loading = document.getElementById("loading");
+const searchForm = document.getElementById("search-form")
 
+const toggleLoader = () => {
+    if (loading.style.display === "block") {
+        loading.style.display = "none"
+        searchForm.style.display = "block"
+    } else {
+        loading.style.display = "block"
+        searchForm.style.display = "none"
+    }
+}
 const getCurrentWeek = () => {
     var date = new Date();
     var day = date.getDate();
@@ -936,38 +946,58 @@ const getCurrentWeek = () => {
 
 const currentWeek = getCurrentWeek();
 
-weatherForm.addEventListener('submit', (e) => {
 
-    e.preventDefault();
+// weatherForm.addEventListener('submit', (e) => {
 
-    const location = search.value;
+//     e.preventDefault();
 
-    for (let i = 0; i < currentWeek.length; i++) {
+//     // toggleLoader();
 
-        let day = currentWeek[i].toJSON().slice(0, 19);
+//     const location = search.value;
 
-        let dayName = currentWeek[i].toString().slice(0, 3);
+//     for (let i = 0; i < currentWeek.length; i++) {
 
-        let dayForecast = document.querySelector(`#${dayName}`);
+//         let day = currentWeek[i].toJSON().slice(0, 19);
 
-        fetch(`http://localhost:3000/weather?address=${location}&day=${day}`).then((res) => {
-            res.json().then((data) => {
-                if (data.err) {
-                    return console.log(data.err);
-                } else {
-                    dayForecast.childNodes[0].textContent = dayName;
-                    dayForecast.childNodes[1].textContent = data.forecast.temperature;
-                    dayForecast.childNodes[2].textContent = data.forecast.location;
-                    dayForecast.getElementsByTagName("canvas")[0].setAttribute("id", `${dayName}-icon`)
-                    
-                    var skycon = new Skycons({ "monochrome": false });
-                    skycon.add(document.getElementById(`${dayName}-icon`), data.forecast.icon);
-                
-                    skycon.play();
-                }
-            })
-        })
-    }
+//         let dayName = currentWeek[i].toLocaleDateString('en-US', { weekday: 'long'});
 
-})
+//         let dayForecast = document.querySelector(`#${dayName}`);
+
+//         fetch(`http://localhost:3000/weather?address=${location}&day=${day}`).then((res) => {
+//             res.json().then((data) => {
+//                 if (data.err) {
+//                     return console.log(data.err);
+//                 } else {
+//                     dayForecast.getElementsByTagName("p")[0].textContent = dayName;
+//                     dayForecast.getElementsByTagName("p")[1].textContent = data.temperature;
+//                     dayForecast.getElementsByTagName("p")[2].textContent = data.location;
+//                     dayForecast.getElementsByTagName("canvas")[0].setAttribute("id", `${dayName}-icon`);
+//                     var skycon = new Skycons({ "monochrome": false });
+//                     skycon.add(document.getElementById(`${dayName}-icon`), data.icon);
+//                     skycon.play();
+//                 }
+//             })
+            
+//         })
+//     }
+// })
+
+for (let i = 0; i < currentWeek.length; i++) {
+
+    let day = currentWeek[i].toJSON().slice(0, 19);
+
+    let dayName = currentWeek[i].toLocaleDateString('en-US', { weekday: 'long'});
+
+    let dayForecast = document.querySelector(`#${dayName}`);
+
+    dayForecast.getElementsByTagName("p")[0].textContent = dayName;
+    dayForecast.getElementsByTagName("div")[0].getElementsByTagName("span")[0].textContent = `${69}°`;
+    dayForecast.getElementsByTagName("div")[0].getElementsByTagName("p")[0].textContent = `Fahrenheit`;
+    dayForecast.getElementsByTagName("p")[2].textContent = 'New York, New York';
+    dayForecast.getElementsByTagName("canvas")[0].setAttribute("id", `${dayName}-icon`);
+    var skycon = new Skycons({ "monochrome": false });
+    skycon.add(document.getElementById(`${dayName}-icon`), 'rain');
+    skycon.play();     
+    
+}
 

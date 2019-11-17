@@ -10,14 +10,7 @@ const forecast = ({ latitude, longitude, location, day } = {}, callback) => {
         } else {
             const data = res.body.currently;
             callback(
-                undefined,
-               {
-                day: day,
-                temperature: data.temperature,
-                location: location,
-                summary: data.summary,
-                icon: data.icon,
-               }
+                undefined, data
             );
         }
     });
