@@ -91,6 +91,10 @@ button {
     width: 90%;
 }
 
+#today {
+    visibility: hidden;
+}
+
 @media (max-width: 800px) {
     body {
         max-width: 100%;
@@ -111,11 +115,11 @@ button {
         width: 75%;
     }
 
-    .day-name {
+    /* .day-name {
         overflow: hidden;
         width: 50%;
 
-    }
+    } */
 
     .temperature p {
         display: none;

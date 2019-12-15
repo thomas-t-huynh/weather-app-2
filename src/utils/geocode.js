@@ -12,6 +12,7 @@ const geocoder = NodeGeocoder(options);
 const geocode = (address, day, callback) => {
     geocoder.geocode(address, (err, res) => {
         if (err) {
+            console.log(err)
             callback('Error: Unable to connect to geocoder services.');
         } else if (res.length === 0) {
             callback('Error: Unable to find address coordinates.');

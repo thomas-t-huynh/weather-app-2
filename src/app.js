@@ -77,7 +77,11 @@ app.get('/weather', (req, res) => {
                 location: data.location,
                 summary: forecastData.summary,
                 icon: forecastData.icon,
-                
+                humidity: forecastData.humidity,
+                pressure: forecastData.pressure,
+                windSpeed: forecastData.windSpeed,
+                uvIndex: forecastData.uvIndex,
+                time: forecastData.time
             })
         });
     });
