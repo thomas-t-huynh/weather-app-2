@@ -91,8 +91,42 @@ button {
     width: 90%;
 }
 
+.current-day-div {
+    display: flex;
+    justify-content: center;
+}
+
 #today {
     visibility: hidden;
+    border: 2px solid #63A3D4;
+    border-bottom: 5px solid #63A3D4;
+    border-right: 5px solid #63A3D4;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 70%;
+    line-height: 8px;
+}
+
+#today-name {
+    font-size: 40px;
+}
+
+#today-summary {
+    padding: 0;
+}
+
+.today-extra-info {
+
+}
+
+.today-extra-info div p {
+    display: inline-block;
+    margin-left: 4px;
+}
+.today-extra-info div h3 {
+    display: inline-block;
 }
 
 @media (max-width: 800px) {
