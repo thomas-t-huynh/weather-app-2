@@ -947,6 +947,7 @@ const getCurrentWeek = () => {
 
 const currentWeek = getCurrentWeek();
 
+const forecastArr = [];
 
 // weatherForm.addEventListener('submit', (e) => {
 
@@ -1005,12 +1006,13 @@ const currentWeek = getCurrentWeek();
 
 
 // auto run weather
+
+
 function runWeather() {
   const location = 'Orange, ca';
 
-  const today = new Date().getDay();
-
-  const forecastArr = [];
+  const date = new Date();
+  const today = date.getDay();
 
   for (let i = 0; i < currentWeek.length; i++) {
       
@@ -1039,7 +1041,7 @@ function runWeather() {
                       document.getElementById("today-summary").textContent = summary;
                       document.getElementById("today-temperature").textContent = `${Math.round(temperature)}°`;
                       document.getElementById("today-location").textContent = data.location;
-                      document.getElementById("today-time").textContent = new Date(data.time).toString();
+                      document.getElementById("today-time").textContent = date.toString();
                       document.getElementById("today-humidity").textContent = humidity;
                       document.getElementById("today-pressure").textContent = pressure;
                       document.getElementById("today-windSpeed").textContent = windSpeed;
@@ -1050,7 +1052,6 @@ function runWeather() {
                   skycon.play();
                   dayForecast.style.visibility = "visible";
                   forecastArr.push({...data, dayName});
-                  console.log(forecastArr)
               }
           })
       })
@@ -1070,7 +1071,11 @@ function truncateDayname(mediaQuery) {
   day[6].textContent = mediaQuery.matches ? 'Sat' : 'Saturday';
 }
 
-function changeMainDay(data) {
+var todaySkycon = new Skycons({ "monochrome": false });
+
+function changeMainDay(selectedDay) {
+  const data = forecastArr.find(day => day.dayName === selectedDay);
+  // document.getElementById(selectedDay).style.borderColor = "#63A3D4";
   document.getElementById("today-name").textContent = data.dayName;
   document.getElementById("today-summary").textContent = data.summary;
   document.getElementById("today-temperature").textContent = `${Math.round(data.temperature)}°`;
@@ -1080,10 +1085,23 @@ function changeMainDay(data) {
   document.getElementById("today-pressure").textContent = data.pressure;
   document.getElementById("today-windSpeed").textContent = data.windSpeed;
   document.getElementById("today-uvIndex").textContent = data.uvIndex;
-  skycon.add(document.getElementById('today-icon'), data.icon);
+  todaySkycon.add(document.getElementById('today-icon'), data.icon);
+  highlightSelectedDay(selectedDay);
+}
+
+function highlightSelectedDay(selectedDay) {
+  forecastArr.forEach((day) => document.getElementById(day.dayName).style.borderColor = null)
+  document.getElementById(selectedDay).style.borderColor = "#63A3D4";
+}
+
+
+for (var i = 0; i <= 6; i++) {
+  const day = document.getElementsByClassName('day-div');
+  day[i].addEventListener('click', (e) => {
+    changeMainDay(e.path[1].id)
+  })
 }
 
 let mediaQuery800 = window.matchMedia("(max-width: 850px)");
 
 mediaQuery800.addListener(truncateDayname);
-
