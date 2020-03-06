@@ -80,8 +80,7 @@ app.get('/weather', (req, res) => {
                 humidity: forecastData.humidity,
                 pressure: forecastData.pressure,
                 windSpeed: forecastData.windSpeed,
-                uvIndex: forecastData.uvIndex,
-                time: forecastData.time
+                uvIndex: forecastData.uvIndex
             })
         });
     });

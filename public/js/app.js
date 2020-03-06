@@ -949,116 +949,111 @@ const currentWeek = getCurrentWeek();
 
 const forecastArr = [];
 
-// weatherForm.addEventListener('submit', (e) => {
+weatherForm.addEventListener('submit', (e) => {
 
-//     e.preventDefault();
+    e.preventDefault();
 
-//     toggleLoader();
+    // toggleLoader();
 
-//     const location = 'Orange, ca';
+    const location = e.target[0].value
+    
+    console.log(location)
 
-//     const today = new Date().getDay();
+    const today = new Date().getDay();
 
-//     const forecastArr = [];
-
-//     for (let i = 0; i < currentWeek.length; i++) {
+    for (let i = 0; i < currentWeek.length; i++) {
         
-//         let day = currentWeek[i].toJSON().slice(0, 19);
-
-//         let dayName = currentWeek[i].toLocaleDateString('en-US', { weekday: 'long'});
-
-//         let dayForecast = document.querySelector(`#${dayName}`);
-
+        let day = currentWeek[i].toJSON().slice(0, 19);
+  
+        let dayName = currentWeek[i].toLocaleDateString('en-US', { weekday: 'long'});
+  
+        let dayForecast = document.querySelector(`#${dayName}`);
+  
       
-//         fetch(`http://localhost:3000/weather?address=${location}&day=${day}`).then((res) => {
-//             res.json().then((data) => {
-//                 if (data.err) {
-//                     return console.log(data.err);
-//                 } else {
-//                     dayForecast.getElementsByTagName("p")[0].textContent = dayName;
-//                     dayForecast.getElementsByTagName("div")[0].getElementsByTagName("span")[0].textContent = `${Math.round(data.temperature)}°`;
-//                     dayForecast.getElementsByTagName("p")[2].textContent = data.location;
-//                     dayForecast.getElementsByTagName("canvas")[0].setAttribute("id", `${dayName}-icon`);
-//                     var skycon = new Skycons({ "monochrome": false });
-//                     skycon.add(document.getElementById(`${dayName}-icon`), data.icon);
-//                     if (currentWeek[i].getDay() === today) {
-//                         dayForecast.style.borderColor = "#63A3D4";
-//                         document.getElementById("today-name").textContent = dayName;
-//                         document.getElementById("today-summary").textContent = data.summary;
-//                         document.getElementById("today-temperature").textContent = `${Math.round(data.temperature)}°`;
-//                         document.getElementById("today-location").textContent = data.location;
-//                         document.getElementById("today-time").textContent = data.time;
-//                         document.getElementById("today-humidity").textContent = data.humidity;
-//                         document.getElementById("today-pressure").textContent = data.pressure;
-//                         document.getElementById("today-windSpeed").textContent = data.windSpeed;
-//                         document.getElementById("today-uvIndex").textContent = data.uvIndex;
-//                         skycon.add(document.getElementById('today-icon'), data.icon);
-//                         document.getElementById("today").style.visibility = "visible"
-//                     }
-//                     skycon.play();
-//                     dayForecast.style.visibility = "visible";
-//                     forecastArr.push(data);
-//                 }
-//             })
-//         })
-//     }
-//  })
+        fetch(`http://localhost:3000/weather?address=${location}&day=${day}`).then((res) => {
+            res.json().then((data) => {
+                if (data.err) {
+                    return console.log(data.err);
+                } else {
+                    const { summary, temperature, location, humidity, pressure, windSpeed, uvIndex, icon } = data;
+                    dayForecast.getElementsByTagName("p")[0].textContent = dayName;
+                    dayForecast.getElementsByTagName("div")[0].getElementsByTagName("span")[0].textContent = `${Math.round(data.temperature)}°`;
+                    dayForecast.getElementsByTagName("p")[2].textContent = location;
+                    dayForecast.getElementsByTagName("canvas")[0].setAttribute("id", `${dayName}-icon`);
+                    var skycon = new Skycons({ "monochrome": false });
+                    skycon.add(document.getElementById(`${dayName}-icon`), icon);
+                    if (currentWeek[i].getDay() === today) {
+                        dayForecast.style.borderColor = "#63A3D4";
+                        document.getElementById("today-name").textContent = dayName;
+                        document.getElementById("today-summary").textContent = summary;
+                        document.getElementById("today-temperature").textContent = `${Math.round(temperature)}°`;
+                        document.getElementById("today-location").textContent = data.location;
+                        document.getElementById("today-humidity").textContent = humidity;
+                        document.getElementById("today-pressure").textContent = pressure;
+                        document.getElementById("today-windSpeed").textContent = windSpeed;
+                        document.getElementById("today-uvIndex").textContent = uvIndex;
+                        skycon.add(document.getElementById('today-icon'), icon);
+                        document.getElementById("today").style.visibility = "visible"
+                    }
+                    skycon.play();
+                    dayForecast.style.visibility = "visible";
+                    forecastArr.push({...data, dayName});
+                }
+            })
+        })
+    }
+})
 
+ // auto run weather
+// function runWeather() {
+//   const location = 'Orange, ca';
 
-// auto run weather
+//   const today = new Date().getDay();
 
-
-function runWeather() {
-  const location = 'Orange, ca';
-
-  const date = new Date();
-  const today = date.getDay();
-
-  for (let i = 0; i < currentWeek.length; i++) {
+//   for (let i = 0; i < currentWeek.length; i++) {
       
-      let day = currentWeek[i].toJSON().slice(0, 19);
+//       let day = currentWeek[i].toJSON().slice(0, 19);
 
-      let dayName = currentWeek[i].toLocaleDateString('en-US', { weekday: 'long'});
+//       let dayName = currentWeek[i].toLocaleDateString('en-US', { weekday: 'long'});
 
-      let dayForecast = document.querySelector(`#${dayName}`);
+//       let dayForecast = document.querySelector(`#${dayName}`);
 
     
-      fetch(`http://localhost:3000/weather?address=${location}&day=${day}`).then((res) => {
-          res.json().then((data) => {
-              if (data.err) {
-                  return console.log(data.err);
-              } else {
-                  const { summary, temperature, location, humidity, pressure, windSpeed, uvIndex, icon } = data;
-                  dayForecast.getElementsByTagName("p")[0].textContent = dayName;
-                  dayForecast.getElementsByTagName("div")[0].getElementsByTagName("span")[0].textContent = `${Math.round(data.temperature)}°`;
-                  dayForecast.getElementsByTagName("p")[2].textContent = location;
-                  dayForecast.getElementsByTagName("canvas")[0].setAttribute("id", `${dayName}-icon`);
-                  var skycon = new Skycons({ "monochrome": false });
-                  skycon.add(document.getElementById(`${dayName}-icon`), icon);
-                  if (currentWeek[i].getDay() === today) {
-                      dayForecast.style.borderColor = "#63A3D4";
-                      document.getElementById("today-name").textContent = dayName;
-                      document.getElementById("today-summary").textContent = summary;
-                      document.getElementById("today-temperature").textContent = `${Math.round(temperature)}°`;
-                      document.getElementById("today-location").textContent = data.location;
-                      document.getElementById("today-time").textContent = date.toString();
-                      document.getElementById("today-humidity").textContent = humidity;
-                      document.getElementById("today-pressure").textContent = pressure;
-                      document.getElementById("today-windSpeed").textContent = windSpeed;
-                      document.getElementById("today-uvIndex").textContent = uvIndex;
-                      skycon.add(document.getElementById('today-icon'), icon);
-                      document.getElementById("today").style.visibility = "visible"
-                  }
-                  skycon.play();
-                  dayForecast.style.visibility = "visible";
-                  forecastArr.push({...data, dayName});
-              }
-          })
-      })
-  }
-}
+//       fetch(`http://localhost:3000/weather?address=${location}&day=${day}`).then((res) => {
+//           res.json().then((data) => {
+//               if (data.err) {
+//                   return console.log(data.err);
+//               } else {
+//                   const { summary, temperature, location, humidity, pressure, windSpeed, uvIndex, icon } = data;
+//                   dayForecast.getElementsByTagName("p")[0].textContent = dayName;
+//                   dayForecast.getElementsByTagName("div")[0].getElementsByTagName("span")[0].textContent = `${Math.round(data.temperature)}°`;
+//                   dayForecast.getElementsByTagName("p")[2].textContent = location;
+//                   dayForecast.getElementsByTagName("canvas")[0].setAttribute("id", `${dayName}-icon`);
+//                   var skycon = new Skycons({ "monochrome": false });
+//                   skycon.add(document.getElementById(`${dayName}-icon`), icon);
+//                   if (currentWeek[i].getDay() === today) {
+//                       dayForecast.style.borderColor = "#63A3D4";
+//                       document.getElementById("today-name").textContent = dayName;
+//                       document.getElementById("today-summary").textContent = summary;
+//                       document.getElementById("today-temperature").textContent = `${Math.round(temperature)}°`;
+//                       document.getElementById("today-location").textContent = data.location;
+//                       document.getElementById("today-humidity").textContent = humidity;
+//                       document.getElementById("today-pressure").textContent = pressure;
+//                       document.getElementById("today-windSpeed").textContent = windSpeed;
+//                       document.getElementById("today-uvIndex").textContent = uvIndex;
+//                       skycon.add(document.getElementById('today-icon'), icon);
+//                       document.getElementById("today").style.visibility = "visible"
+//                   }
+//                   skycon.play();
+//                   dayForecast.style.visibility = "visible";
+//                   forecastArr.push({...data, dayName});
+//               }
+//           })
+//       })
+//   }
+// }
 
-runWeather();
+// runWeather();
 
 function truncateDayname(mediaQuery) {
   const day = document.getElementsByClassName("day-name");
@@ -1080,7 +1075,6 @@ function changeMainDay(selectedDay) {
   document.getElementById("today-summary").textContent = data.summary;
   document.getElementById("today-temperature").textContent = `${Math.round(data.temperature)}°`;
   document.getElementById("today-location").textContent = data.location;
-  document.getElementById("today-time").textContent = new Date(data.time).toString();
   document.getElementById("today-humidity").textContent = data.humidity;
   document.getElementById("today-pressure").textContent = data.pressure;
   document.getElementById("today-windSpeed").textContent = data.windSpeed;
