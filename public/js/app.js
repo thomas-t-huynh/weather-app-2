@@ -970,7 +970,7 @@ weatherForm.addEventListener('submit', (e) => {
         let dayForecast = document.querySelector(`#${dayName}`);
   
       
-        fetch(`http://localhost:3000/weather?address=${location}&day=${day}`).then((res) => {
+        fetch(`/weather?address=${location}&day=${day}`).then((res) => {
             res.json().then((data) => {
                 if (data.err) {
                     return console.log(data.err);
